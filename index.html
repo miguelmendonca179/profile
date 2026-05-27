@@ -318,12 +318,17 @@ const video = document.getElementById('bg-video');
 
 function enterSite(){
 
-    /* MUSICA */
+    /* VOLUME */
     music.volume = 0.5;
+
+    /* MOSTRA VIDEO */
+    video.style.display = 'block';
+
+    /* COMEÇA MUSICA */
     music.play();
 
-    /* VIDEO COMEÇA JUNTO */
-    video.style.display = 'block';
+    /* SINCRONIZA VIDEO */
+    video.currentTime = music.currentTime;
     video.play();
 
     /* REMOVE TELA */
@@ -334,6 +339,30 @@ function enterSite(){
     mainContent.style.opacity = '1';
 
 }
+
+/* SINCRONIZA SEMPRE */
+music.addEventListener('timeupdate', () => {
+
+    const diff = Math.abs(video.currentTime - music.currentTime);
+
+    if(diff > 0.3){
+        video.currentTime = music.currentTime;
+    }
+
+});
+
+/* QUANDO VOLTAR PRA ABA */
+document.addEventListener('visibilitychange', () => {
+
+    if(!document.hidden){
+
+        video.currentTime = music.currentTime;
+
+        video.play();
+
+    }
+
+});
 
 </script>
 
